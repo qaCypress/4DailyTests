@@ -292,7 +292,7 @@ cy.go(-1);
 
 describe('SuperCat', () => {
   function loginSuperCat() {
-    cy.visit(`https://92supercatcasino.com`);
+    cy.visit(`https://supercatcasino.com`);
     cy.get('.guest-header > .button-outlined').click({ force: true });
     cy.get(':nth-child(1) > .form-control').type("new_test_eur@gmail.com");
     cy.get(':nth-child(2) > .form-control').type("new_test_eur@gmail.com");
@@ -306,7 +306,7 @@ describe('SuperCat', () => {
     it(`SuperCat Desk ${lang}`, () => {
       loginSuperCat();
       cy.viewport(1920, 1080);
-      cy.visit(`https://92supercatcasino.com/${lang}`);
+      cy.visit(`https://supercatcasino.com/${lang}`);
       cy.wait(500);
   
       cy.get('ul.slider-dots button').its('length').then(length => {
