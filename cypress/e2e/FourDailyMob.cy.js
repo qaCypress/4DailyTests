@@ -1,5 +1,232 @@
 import '../support/commands.js';
 
+describe('SpinBounty', () => {
+  var languagesSpinBounty = ["ru", "en", "pl", "de", "fr"];
+
+  for (let lang of languagesSpinBounty) {
+    it(`SpinBounty Mob ${lang}`, () => {
+      cy.viewport(428, 926);
+      
+      // Відкриваємо сайт
+      cy.visit(`https://spinbounty.com/${lang}`);
+      cy.wait(2000);
+      
+      // Робимо перший скріншот
+      cy.screenshot(`SpinBountyMob/slide_1_language_${lang}`, {
+        capture: 'viewport',
+        quality: 70
+      });
+      
+      // Підраховуємо кількість слайдів за кількістю зображень
+      cy.get('.mobile_image').then($images => {
+        const slideCount = $images.length;
+        cy.log(`Знайдено ${slideCount} зображень з класом mobile_image`);
+        
+        // Проходимо через усі слайди, починаючи з другого
+        for (let i = 1; i < slideCount; i++) {
+          // Знаходимо кнопку "Наступний слайд" і натискаємо
+          cy.get('.ds-next, .slider-next, .carousel-next, [data-slide="next"]')
+            .first()
+            .click({force: true});
+          
+          cy.wait(1000); // Даємо час для анімації
+          
+          // Робимо скріншот
+          cy.screenshot(`SpinBountyMob/slide_${i+1}_language_${lang}`, {
+            capture: 'viewport',
+            quality: 70
+          });
+        }
+      });
+    });
+  }
+});
+
+describe('Magic365', () => {
+  var languagesMagic365 = ["ru", "en", "pl"];
+
+  for (let lang of languagesMagic365) {
+    it(`Magic365 Mob ${lang}`, () => {
+      cy.viewport(428, 926);
+      
+      // Відкриваємо сайт
+      cy.visit(`https://magic365.com/${lang}`);
+      cy.wait(2000);
+      
+      // Робимо перший скріншот
+      cy.screenshot(`Magic365Mob/slide_1_language_${lang}`, {
+        capture: 'viewport',
+        quality: 70
+      });
+      
+      // Підраховуємо кількість слайдів за кількістю зображень
+      cy.get('.mobile_image').then($images => {
+        const slideCount = $images.length;
+        cy.log(`Знайдено ${slideCount} зображень з класом mobile_image`);
+        
+        // Проходимо через усі слайди, починаючи з другого
+        for (let i = 1; i < slideCount; i++) {
+          // Знаходимо кнопку "Наступний слайд" і натискаємо
+          cy.get('.ds-next, .slider-next, .carousel-next, [data-slide="next"]')
+            .first()
+            .click({force: true});
+          
+          cy.wait(1000); // Даємо час для анімації
+          
+          // Робимо скріншот
+          cy.screenshot(`Magic365Mob/slide_${i+1}_language_${lang}`, {
+            capture: 'viewport',
+            quality: 70
+          });
+        }
+      });
+    });
+  }
+});
+
+
+
+describe('Viks', () => {
+  function loginViks() {
+    cy.visit(`https://viks.com/casino`);
+    cy.get('.extend > .button').click({ force: true });
+    cy.get('[data-tab="email"] > .label').click({ force: true });
+    cy.get('#signinform_email > .form > .group-name-login').type("v.pupkin.eur@gmail.com");
+    cy.get('#signinform_email > .form > .group-name-password').type("JTFN3W9JM4");
+    cy.get('#signinform_email > .form > :nth-child(4) > .button').click({ force: true });
+    cy.wait(1000);
+    cy.go(-1);
+  }
+
+  var languagesViks = ["ru", "en", "uz"];
+
+  for (let lang of languagesViks) {
+     it(`Viks Mob ${lang}`, () => {
+      cy.viewport(1284, 2778); // Встановлюємо розширення для iPhone 14 Pro Max
+;
+      loginViks();
+      cy.visit(`https://viks.com/${lang}/casino`);
+      cy.wait(500);
+
+      const swipeInterval = 2000; // Інтервал між свайпами в мілісекундах
+      let expectedCount; // Змінна для зберігання значення expectedCount
+      let swipeCount = 1; // Початкова кількість свайпів
+      cy.go(-1);
+
+      cy.wait(1000);
+      cy.get("[id^=slick-slide-control0]").its("length").then((length) => {
+        expectedCount = length; // Присвоюємо значення expectedCount
+      });
+
+      cy.viewport(428, 926);
+ // Використання приблизно половини реального розміру екрану
+      cy.wait(500);
+
+      cy.get(':nth-child(1) > .no_container').then(($element) => {
+        cy.scrollTo('top');
+        const startX = $element[0].getBoundingClientRect().left + 10; // Початкова точка X
+        const startY = $element[0].getBoundingClientRect().top + 10; // Початкова точка Y
+        const endX = startX + 100; // Збільшуємо відстань свайпа з кожною ітерацією
+        const endY = startY;
+
+        // Обмежуємо цикл значенням expectedCount
+        for (let i = 0; i < Math.min(swipeCount, expectedCount); i++) {
+          cy.scrollTo('top');
+          cy.get($element).trigger('mousedown', { button: 0, clientX: startX, clientY: startY }, { force: true });
+          cy.wait(500);
+          cy.get($element).trigger('mousemove', { button: 0, clientX: endX, clientY: endY }, { force: true });
+          cy.wait(500);
+          cy.get($element).trigger('mouseup', { button: 0, clientX: endX, clientY: endY }, { force: true });
+
+          cy.scrollTo('top');
+          cy.wait(1000);
+          cy.screenshot(`ViksMob/slide_${i + 1}_language_${lang}`, {
+            capture: 'viewport',
+            quality: 70
+          });
+
+          cy.wait(500);
+
+          swipeCount += 1; // Збільшуємо значення swipeCount для наступної ітерації
+        }
+      });
+
+      cy.wait(500);
+    });
+  }
+});
+
+describe('Spinado', () => {
+  function loginSpinado() {
+    cy.visit(`https://spinado.com`);
+    cy.get('.panel_user > .primary').click({ force: true });
+    cy.get('[id*="login"]').eq(1).type("testmodal@gmail.com");
+    cy.get('[id*="password"]').eq(0).type("@gmail.comM123");
+    cy.get('#signinform > .button').click({ force: true });
+    cy.wait(1000);
+    cy.get('.modal_header > .close > .icon').click({ force: true });
+  }
+
+  var languagesSpinado = ["ru", "en", "es", "pl", "pt", "kk"];
+
+  for (let lang of languagesSpinado) {
+    it(`Spinado Mob ${lang}`, () => {
+      cy.visit(`https://spinado.com/${lang}`);
+      cy.viewport(1284, 2778); // Встановлюємо розширення для iPhone 14 Pro Max
+;
+      loginSpinado();
+      cy.wait(1000);
+      cy.visit(`https://spinado.com/${lang}`);
+      cy.wait(1000);
+
+      const swipeInterval = 2000; // Интервал между свайпами в миллисекундах
+      let expectedCount; // Переменная для хранения значения expectedCount
+      let swipeCount = 1; // Начальное количество свайпов
+
+      cy.viewport(1284, 2778); // Встановлюємо розширення для iPhone 14 Pro Max
+;
+      cy.wait(1000);
+      cy.get("[id^=slick-slide-control0]").its("length").then((length) => {
+        expectedCount = length; // Присваиваем значение expectedCount
+      });
+
+      cy.viewport(428, 926);
+ // Використання приблизно половини реального розміру екрану
+      cy.wait(1000);
+
+      cy.get('.section_banners').then(($element) => {
+        cy.scrollTo('top');
+        const startX = $element[0].getBoundingClientRect().left + 10; // Начальная точка X
+        const startY = $element[0].getBoundingClientRect().top + 10; // Начальная точка Y
+        const endX = startX + 100; // Увеличиваем расстояние свайпа с каждой итерацией
+        const endY = startY;
+
+        // Ограничиваем цикл значением expectedCount
+        for (let i = 0; i < Math.min(swipeCount, expectedCount); i++) {
+          cy.scrollTo('top');
+          cy.get($element).trigger('mousedown', { button: 0, clientX: startX, clientY: startY }, { force: true });
+          cy.get($element).trigger('mousemove', { button: 0, clientX: endX, clientY: endY }, { force: true });
+          cy.get($element).trigger('mouseup', { button: 0, clientX: endX, clientY: endY }, { force: true });
+
+          cy.scrollTo('top');
+          cy.wait(1000);
+          cy.screenshot(`SpinadoMob/slide_${i + 1}_language_${lang}`, {
+            capture: 'viewport',
+            quality: 70
+          });
+
+          cy.wait(1000);
+
+          swipeCount += 1; // Увеличиваем значение swipeCount для следующей итерации
+        }
+      });
+      cy.wait(1000);
+    });
+  }
+});
+
+
+
 describe('AllRight', () => {
   var languagesAllright = ["ru", "en", "de", "es", "pl", "no", "pt", "fi", "ja", "sv", "fr", "tr"];
 
@@ -133,6 +360,7 @@ describe('Slottica', () => {
           cy.wait(1000);
           cy.screenshot(`SlotticaMob/slide_${i + 1}_language_${lang}`, {
             capture: 'viewport',
+            quality: 70
           });
 
           swipeCount += 1;
@@ -194,6 +422,7 @@ describe('SlottyWay', () => {
             cy.wait(1000);
           cy.screenshot(`SlottyWayMob/slide_${index + 1}_language_${lang}`, {
             capture: 'viewport',
+            quality: 70
           });
           cy.wait(500);
           index = index + 1;
@@ -252,52 +481,10 @@ describe('Spinamba', () => {
   }
 });
 
-describe('SpinBounty', () => {
-  function loginSpinBounty() {
-    cy.visit(`https://spinbounty.com`);
-    cy.get('#sidebar-main > .actions > .primary').click({ force: true });
-    cy.get('.group-name-login > .control-label').type("v.pupkin.eur@gmail.com");
-    cy.get('.group-name-password > .control-label').type("JTFN3W9JM4");
-    cy.get('.submit').click({ force: true });
-    cy.wait(1000);
-    cy.get('.action > .icon').click({ force: true });
-  }
-
-  var languagesSpinBounty = ["ru", "en", "pl", "de", "fr"];
-
-  for (let lang of languagesSpinBounty) {
-
-    it(`SpinBounty Mob ${lang}`, () => {
-      cy.viewport(428, 926);
- // Використання приблизно половини реального розміру екрану
-      loginSpinBounty();
-    
-        cy.visit(`https://spinbounty.com/${lang}`);
-
-        cy.get('.item_banner > .game_info > .btn_block > .button').its("length").then((length) => {
-          var expectedCount = length;
-
-          const scrollDistance = 310; // Расстояние свайпа
-          const captureInterval = 1000; // Интервал между скриншотами в миллисекундах
-          let currentScrollLeft = 0;
-
-          for (let swipeCount = 0; swipeCount < expectedCount; swipeCount++) {
-            cy.get(`.ds-track:first`).scrollTo(currentScrollLeft, 0, { duration: 250 });
-            cy.wait(captureInterval);
-            cy.wait(1000);
-            cy.screenshot(`SpinBountyMob/slide_swipe_${swipeCount + 1}_language_${lang}`, {
-              capture: 'viewport',
-            });
-            currentScrollLeft += scrollDistance; // Обновляем currentScrollLeft с учетом scrollDistance
-          }
-        });
-    });
-  }
-});
 
 describe('SuperCat', () => {
   function loginSuperCat() {
-    cy.visit(`https://92supercatcasino.com`);
+    cy.visit(`https://supercatcasino.com/`);
     cy.get('.guest-header > .button-outlined').click({ force: true });
     cy.get(':nth-child(1) > .form-control').type("new_test_eur@gmail.com");
     cy.get(':nth-child(2) > .form-control').type("new_test_eur@gmail.com");
@@ -312,13 +499,14 @@ describe('SuperCat', () => {
       loginSuperCat();
       cy.viewport(428, 926);
  // Використання приблизно половини реального розміру екрану
-      cy.visit(`https://92supercatcasino.com/${lang}`);
+      cy.visit(`https://supercatcasino.com/${lang}`);
       for (let v = 0; v <= 9; v++) {
         cy.get('.slick-next').each(($button, index) => {
           cy.wrap($button).click({ force: true });
           cy.wait(1000);
           cy.screenshot(`SuperCatMob/slide_${index + 1}_language_${lang}.png`, {
             capture: 'viewport',
+            quality: 70
           });
           cy.wait(1000);
           cy.get('[tabindex="-1"] > .slider-item > .slider-item__header')
@@ -333,186 +521,6 @@ describe('SuperCat', () => {
           cy.wait(500);
         });
       }
-    });
-  }
-});
-
-describe('Magic365', () => {
-  function loginMagic365() {
-    cy.visit(`https://magic365.com`);
-    cy.get('#sidebar-main > .actions > .primary').click({ force: true });
-    cy.get('.group-name-login > .control-label').type("v.pupkin.eur@gmail.com");
-    cy.get('.group-name-password > .control-label').type("JTFN3W9JM4");
-    cy.get('.submit').click({ force: true });
-    cy.wait(1000);
-    cy.get('.action > .icon').click({ force: true });
-  }
-
-  var languagesMagic365 = ["ru", "en", "pl"];
-
-  for (let lang of languagesMagic365) {
-    
-
-    it(`Magic365 Mob ${lang}`, () => {
-      loginMagic365();
-      cy.viewport(428, 926);
- // Використання приблизно половини реального розміру екрану
-      cy.visit(`https://magic365.com/${lang}`);
-      
-      cy.get('.item_banner > .game_info > .btn_block > .button').its("length").then((length) => {
-        var expectedCount = length;
-
-        const scrollDistance = 310; // Расстояние свайпа
-        const captureInterval = 1000; // Интервал между скриншотами в миллисекундах
-        let currentScrollLeft = 0;
-
-        for (let swipeCount = 0; swipeCount < expectedCount; swipeCount++) {
-          cy.get(`.ds-track:first`).scrollTo(currentScrollLeft, 0, { duration: 250 });
-          cy.wait(captureInterval);
-          cy.wait(1000);
-          cy.screenshot(`Magic365Mob/slide_swipe_${swipeCount + 1}_language_${lang}`, {
-            capture: 'viewport',
-          });
-          currentScrollLeft += scrollDistance; // Обновляем currentScrollLeft с учетом scrollDistance
-        }
-      });
-    });
-  }
-});
-
-describe('Viks', () => {
-  function loginViks() {
-    cy.visit(`https://viks.com/casino`);
-    cy.get('.extend > .button').click({ force: true });
-    cy.get('[data-tab="email"] > .label').click({ force: true });
-    cy.get('#signinform_email > .form > .group-name-login').type("v.pupkin.eur@gmail.com");
-    cy.get('#signinform_email > .form > .group-name-password').type("JTFN3W9JM4");
-    cy.get('#signinform_email > .form > :nth-child(4) > .button').click({ force: true });
-    cy.wait(1000);
-    cy.go(-1);
-  }
-
-  var languagesViks = ["ru", "en", "uz"];
-
-  for (let lang of languagesViks) {
-     it(`Viks Mob ${lang}`, () => {
-      cy.viewport(1284, 2778); // Встановлюємо розширення для iPhone 14 Pro Max
-;
-      loginViks();
-      cy.visit(`https://viks.com/${lang}/casino`);
-      cy.wait(500);
-
-      const swipeInterval = 2000; // Інтервал між свайпами в мілісекундах
-      let expectedCount; // Змінна для зберігання значення expectedCount
-      let swipeCount = 1; // Початкова кількість свайпів
-      cy.go(-1);
-
-      cy.wait(1000);
-      cy.get("[id^=slick-slide-control0]").its("length").then((length) => {
-        expectedCount = length; // Присвоюємо значення expectedCount
-      });
-
-      cy.viewport(428, 926);
- // Використання приблизно половини реального розміру екрану
-      cy.wait(500);
-
-      cy.get(':nth-child(1) > .no_container').then(($element) => {
-        cy.scrollTo('top');
-        const startX = $element[0].getBoundingClientRect().left + 10; // Початкова точка X
-        const startY = $element[0].getBoundingClientRect().top + 10; // Початкова точка Y
-        const endX = startX + 100; // Збільшуємо відстань свайпа з кожною ітерацією
-        const endY = startY;
-
-        // Обмежуємо цикл значенням expectedCount
-        for (let i = 0; i < Math.min(swipeCount, expectedCount); i++) {
-          cy.scrollTo('top');
-          cy.get($element).trigger('mousedown', { button: 0, clientX: startX, clientY: startY }, { force: true });
-          cy.wait(500);
-          cy.get($element).trigger('mousemove', { button: 0, clientX: endX, clientY: endY }, { force: true });
-          cy.wait(500);
-          cy.get($element).trigger('mouseup', { button: 0, clientX: endX, clientY: endY }, { force: true });
-
-          cy.scrollTo('top');
-          cy.wait(1000);
-          cy.screenshot(`ViksMob/slide_${i + 1}_language_${lang}`, {
-            capture: 'viewport',
-          });
-
-          cy.wait(500);
-
-          swipeCount += 1; // Збільшуємо значення swipeCount для наступної ітерації
-        }
-      });
-
-      cy.wait(500);
-    });
-  }
-});
-
-describe('Spinado', () => {
-  function loginSpinado() {
-    cy.visit(`https://spinado.com`);
-    cy.get('.panel_user > .primary').click({ force: true });
-    cy.get('[id*="login"]').eq(1).type("testmodal@gmail.com");
-    cy.get('[id*="password"]').eq(0).type("@gmail.comM123");
-    cy.get('#signinform > .button').click({ force: true });
-    cy.wait(1000);
-    cy.get('.modal_header > .close > .icon').click({ force: true });
-  }
-
-  var languagesSpinado = ["ru", "en", "es", "pl", "pt", "kk"];
-
-  for (let lang of languagesSpinado) {
-    it(`Spinado Mob ${lang}`, () => {
-      cy.visit(`https://spinado.com/${lang}`);
-      cy.viewport(1284, 2778); // Встановлюємо розширення для iPhone 14 Pro Max
-;
-      loginSpinado();
-      cy.wait(1000);
-      cy.visit(`https://spinado.com/${lang}`);
-      cy.wait(1000);
-
-      const swipeInterval = 2000; // Интервал между свайпами в миллисекундах
-      let expectedCount; // Переменная для хранения значения expectedCount
-      let swipeCount = 1; // Начальное количество свайпов
-
-      cy.viewport(1284, 2778); // Встановлюємо розширення для iPhone 14 Pro Max
-;
-      cy.wait(1000);
-      cy.get("[id^=slick-slide-control0]").its("length").then((length) => {
-        expectedCount = length; // Присваиваем значение expectedCount
-      });
-
-      cy.viewport(428, 926);
- // Використання приблизно половини реального розміру екрану
-      cy.wait(1000);
-
-      cy.get('.section_banners').then(($element) => {
-        cy.scrollTo('top');
-        const startX = $element[0].getBoundingClientRect().left + 10; // Начальная точка X
-        const startY = $element[0].getBoundingClientRect().top + 10; // Начальная точка Y
-        const endX = startX + 100; // Увеличиваем расстояние свайпа с каждой итерацией
-        const endY = startY;
-
-        // Ограничиваем цикл значением expectedCount
-        for (let i = 0; i < Math.min(swipeCount, expectedCount); i++) {
-          cy.scrollTo('top');
-          cy.get($element).trigger('mousedown', { button: 0, clientX: startX, clientY: startY }, { force: true });
-          cy.get($element).trigger('mousemove', { button: 0, clientX: endX, clientY: endY }, { force: true });
-          cy.get($element).trigger('mouseup', { button: 0, clientX: endX, clientY: endY }, { force: true });
-
-          cy.scrollTo('top');
-          cy.wait(1000);
-          cy.screenshot(`SpinadoMob/slide_${i + 1}_language_${lang}`, {
-            capture: 'viewport',
-          });
-
-          cy.wait(1000);
-
-          swipeCount += 1; // Увеличиваем значение swipeCount для следующей итерации
-        }
-      });
-      cy.wait(1000);
     });
   }
 });
