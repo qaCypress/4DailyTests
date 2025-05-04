@@ -363,7 +363,7 @@ describe('Magic365', () => {
     cy.get('.action > .icon').click({ force: true });
   }
 
-  var languagesMagic365 = ["ru", "en", "pl"];
+  var languagesMagic365 = ["ru", "en", "pl", "fr"];
 
   for (let lang of languagesMagic365) {
     it(`Magic365 Desk ${lang}`, () => {
@@ -414,7 +414,7 @@ describe('Viks', () => {
     cy.go(-1);
   }
 
-  var languagesViks = ["ru", "en", "uz"];
+  var languagesViks = ["ru", "en", "uz", "pl"];
 
   for (let lang of languagesViks) {
     it(`Viks Desk ${lang}`, () => {

@@ -43,7 +43,7 @@ describe('SpinBounty', () => {
 });
 
 describe('Magic365', () => {
-  var languagesMagic365 = ["ru", "en", "pl"];
+  var languagesMagic365 = ["ru", "en", "pl", 'fr'];
 
   for (let lang of languagesMagic365) {
     it(`Magic365 Mob ${lang}`, () => {
@@ -98,7 +98,7 @@ describe('Viks', () => {
     cy.go(-1);
   }
 
-  var languagesViks = ["ru", "en", "uz"];
+  var languagesViks = ["ru", "en", "uz", "pl"];
 
   for (let lang of languagesViks) {
      it(`Viks Mob ${lang}`, () => {
@@ -272,7 +272,7 @@ describe('AllRight', () => {
 
 describe('LuckyBird', () => {
   function loginLuckyBird() {
-    cy.visit(`https://luckybirdcasino.com`);
+    cy.visit(`https://luckybirdcasino93.com`);
     cy.get(':nth-child(3) > .column > .button').click({ force: true });
     cy.get('#form-signin-email > .group-name-login').type("new_test_eur@gmail.com");
     cy.get('#form-signin-email > .group-name-password').type("new_test_eur@gmail.com");
@@ -290,7 +290,7 @@ describe('LuckyBird', () => {
       cy.viewport(428, 926);
  // Використання приблизно половини реального розміру екрану
       loginLuckyBird();
-      cy.visit(`https://luckybirdcasino.com/${lang}`);
+      cy.visit(`https://luckybirdcasino93.com/${lang}`);
       const elementSelector = "[id^=slick-slide-control0]";
       cy.get(elementSelector).each(($element, index, $list) => {
         cy.get(`#slick-slide-control0${index}`).click({ force: true });
@@ -310,65 +310,6 @@ describe('LuckyBird', () => {
       });
     });
   }
-});
-
-describe('Slottica', () => {
-
-  function loginSlottica() {
-    cy.visit(`https://slottica.com`);
-    cy.get('.extend > .button').click({ force: true });
-    cy.get('#signinform_email > .form > .group-name-login').type("new_test_eur@gmail.com");
-    cy.get('#signinform_email > .form > .group-name-password').type("new_test_eur@gmail.com");
-    cy.get('#signinform_email > .form > :nth-child(4) > .button').click({ force: true });
-    cy.wait(500);
-    cy.get('.close > .icon-close').click({ force: true });
-  }
-
-  var languagesSlottica = ["ru", "en", "de", "es", "pl", "pt", "fi", "no", "sv", "ja", "kk", "fr", "hi", "bn", "az", "tr"];
-  
-  for (let lang of languagesSlottica) {
-    it(`Slottica Mob ${lang}`, () => {
-      loginSlottica();
-      cy.visit(`https://slottica.com/${lang}`);
-      const swipeInterval = 2000;
-      let expectedCount;
-      let swipeCount = 1;
-
-      cy.viewport(1284, 2778); // Встановлюємо розширення для iPhone 14 Pro Max
-;
-      cy.get("[id^=slick-slide-control0]").its("length").then((length) => {
-        expectedCount = length;
-      });
-
-      cy.viewport(428, 926);
- // Використання приблизно половини реального розміру екрану
-
-      cy.get(':nth-child(1) > .no_container').then(($element) => {
-        cy.scrollTo('top');
-        const startX = $element[0].getBoundingClientRect().left + 10;
-        const startY = $element[0].getBoundingClientRect().top + 10;
-        const endX = startX + 100;
-        const endY = startY;
-
-        for (let i = 0; i < Math.min(swipeCount, expectedCount); i++) {
-          cy.scrollTo('top');
-          cy.get($element).trigger('mousedown', { button: 0, clientX: startX, clientY: startY }, { force: true });
-          cy.get($element).trigger('mousemove', { button: 0, clientX: endX, clientY: endY }, { force: true });
-          cy.get($element).trigger('mouseup', { button: 0, clientX: endX, clientY: endY }, { force: true });
-
-          cy.scrollTo('top');
-          cy.wait(1000);
-          cy.screenshot(`SlotticaMob/slide_${i + 1}_language_${lang}`, {
-            capture: 'viewport',
-            quality: 70
-          });
-
-          swipeCount += 1;
-        }
-      });
-    });
-  }
-
 });
 
 describe('SlottyWay', () => {
@@ -484,7 +425,7 @@ describe('Spinamba', () => {
 
 describe('SuperCat', () => {
   function loginSuperCat() {
-    cy.visit(`https://supercatcasino.com/`);
+    cy.visit(`https://supercatcasino106.com/`);
     cy.get('.guest-header > .button-outlined').click({ force: true });
     cy.get(':nth-child(1) > .form-control').type("new_test_eur@gmail.com");
     cy.get(':nth-child(2) > .form-control').type("new_test_eur@gmail.com");
@@ -499,7 +440,7 @@ describe('SuperCat', () => {
       loginSuperCat();
       cy.viewport(428, 926);
  // Використання приблизно половини реального розміру екрану
-      cy.visit(`https://supercatcasino.com/${lang}`);
+      cy.visit(`https://supercatcasino106.com/${lang}`);
       for (let v = 0; v <= 9; v++) {
         cy.get('.slick-next').each(($button, index) => {
           cy.wrap($button).click({ force: true });
@@ -523,4 +464,62 @@ describe('SuperCat', () => {
       }
     });
   }
+});
+describe('Slottica', () => {
+
+  function loginSlottica() {
+    cy.visit(`https://slottica.com`);
+    cy.get('.extend > .button').click({ force: true });
+    cy.get('#signinform_email > .form > .group-name-login').type("new_test_eur@gmail.com");
+    cy.get('#signinform_email > .form > .group-name-password').type("new_test_eur@gmail.com");
+    cy.get('#signinform_email > .form > :nth-child(4) > .button').click({ force: true });
+    cy.wait(500);
+    cy.get('.close > .icon-close').click({ force: true });
+  }
+
+  var languagesSlottica = ["ru", "en", "de", "es", "pl", "pt", "fi", "no", "sv", "ja", "kk", "fr", "hi", "bn", "az", "tr"];
+  
+  for (let lang of languagesSlottica) {
+    it(`Slottica Mob ${lang}`, () => {
+      loginSlottica();
+      cy.visit(`https://slottica.com/${lang}`);
+      const swipeInterval = 2000;
+      let expectedCount;
+      let swipeCount = 1;
+
+      cy.viewport(1284, 2778); // Встановлюємо розширення для iPhone 14 Pro Max
+;
+      cy.get("[id^=slick-slide-control0]").its("length").then((length) => {
+        expectedCount = length;
+      });
+
+      cy.viewport(428, 926);
+ // Використання приблизно половини реального розміру екрану
+
+      cy.get(':nth-child(1) > .no_container').then(($element) => {
+        cy.scrollTo('top');
+        const startX = $element[0].getBoundingClientRect().left + 10;
+        const startY = $element[0].getBoundingClientRect().top + 10;
+        const endX = startX + 100;
+        const endY = startY;
+
+        for (let i = 0; i < Math.min(swipeCount, expectedCount); i++) {
+          cy.scrollTo('top');
+          cy.get($element).trigger('mousedown', { button: 0, clientX: startX, clientY: startY }, { force: true });
+          cy.get($element).trigger('mousemove', { button: 0, clientX: endX, clientY: endY }, { force: true });
+          cy.get($element).trigger('mouseup', { button: 0, clientX: endX, clientY: endY }, { force: true });
+
+          cy.scrollTo('top');
+          cy.wait(1000);
+          cy.screenshot(`SlotticaMob/slide_${i + 1}_language_${lang}`, {
+            capture: 'viewport',
+            quality: 70
+          });
+
+          swipeCount += 1;
+        }
+      });
+    });
+  }
+
 });
